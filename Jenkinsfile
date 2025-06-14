@@ -40,7 +40,7 @@ pipeline {
 
         stage('Sonar Analysis') {
             environment {
-                SCANNER_HOME = tool 'Sonar-scanner' // ✅ Fixed typo: 'enviornment' ➝ 'environment'
+                SCANNER_HOME = tool 'Sonar-scanner' 
             }
             steps {
                 withSonarQubeEnv('sonarserver') {
@@ -67,13 +67,13 @@ pipeline {
               script {
                 echo 'Docker Build Started'
                 sh "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
-        }
-    }
-}
-
-                }
+              }
             }
         }
+
     }
 }
+        
+    
+
     
