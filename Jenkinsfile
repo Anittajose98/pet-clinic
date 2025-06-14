@@ -21,10 +21,27 @@ pipeline {
                 sh "mvn test"
             }
         }
-        stage('file scanning by trivy') {
+        stage('File scanning by Trivy') {
             steps {
                 echo "Trivy scanning"
                 sh 'trivy fs --format table --output trivy-report.txt --severity HIGH,CRITICAL .'
+            }
+        }
+        stage('Sonar Analysis') {
+            environment {
+                SCANNER_HOME = tool 'Sonar-scanner'
+            }
+            steps {
+                withSonarQubeEnv('sonarserver') {
+                    sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.organization=Anittajose \
+                        -Dsonar.projectName=springboot-pet \
+                        -Dsonar.projectKey=anittajose_springboot-pet \
+                        -Dsonar.java.binaries=. \
+                        -Dsonar.exclusions=**/trivy-report.txt
+                    '''
+                }
             }
         }
     }
