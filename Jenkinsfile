@@ -21,11 +21,3 @@ pipeline {
                 sh " mvn test"
             }
         }
-        stage('File Scanning by Trivy') {
-            steps {
-                echo "Trivy Scanning"
-                sh  'trivy fs --format table --output trivy-report.txt --severity HIGH,CRITICAL .'
-            }
-        }
-    }
-}
