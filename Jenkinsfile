@@ -9,6 +9,8 @@ pipeline {
         IMAGE_TAG  = "latest"
         TENANT_ID  = "765d1d0b-281b-4c54-bb5d-8f10bb1ecffe"
         ACR_NAME   = "jenkins1"
+        ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
+        FULL_IMAGE_NAME = "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}"
         
     }
 
@@ -83,6 +85,18 @@ pipeline {
                       '''
                     }
                 }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+              script {
+                echo 'Docker push Started'
+                sh '''
+                docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}
+                docker push ${FULL_IMAGE_NAME}
+                '''
+
+              }
             }
         }
 
