@@ -9,10 +9,9 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Anittajose98/pet-clinic.git'
             }
         }
-        stage('Maven compile') {
+        stage('test') {
             steps {
-                echo "This is maven compile stage"
-                sh "mvn compile"
+                echo "This is maven test stage"
             }
         }
         stage('Deploy') {
