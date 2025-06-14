@@ -5,7 +5,7 @@ pipeline {
         maven 'maven'
     }
     environment {  
-        IMAGE_NAME = "Springboot"
+        IMAGE_NAME = "springboot"
         IMAGE_TAG  = "latest"
         
     }
