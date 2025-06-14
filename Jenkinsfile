@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools{
+    tools {
         maven 'maven'
     }
     stages {
@@ -18,7 +18,7 @@ pipeline {
         stage('Maven Test') {
             steps {
                 echo "This is maven Test stage"
-                sh "mvn Test"
+                sh "mvn test"
             }
         }
         stage('Deploy') {
