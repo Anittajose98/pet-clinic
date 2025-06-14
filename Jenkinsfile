@@ -7,6 +7,8 @@ pipeline {
     environment {  
         IMAGE_NAME = "springboot"
         IMAGE_TAG  = "latest"
+        TENANT_ID  = "765d1d0b-281b-4c54-bb5d-8f10bb1ecffe"
+        ACR_NAME   = "jenkins1"
         
     }
 
@@ -68,6 +70,18 @@ pipeline {
                 echo 'Docker Build Started'
                 docker.build ("$IMAGE_NAME:$IMAGE_TAG") 
               }
+            }
+        }
+        stage('Azure Login to ACR') {
+            steps{
+                 withCredentials([usernamePassword(credentialsId: 'azurespn', usernameVariable: 'AZURE_USERNAME', passwordVariable: 'AZURE_PASSWORD')]) {
+                    script
+                      echo 'Azure Login Started'
+                     sh '''
+                      az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $TENANT_ID
+                      az acr login --name $ACR_NAME
+                      '''
+                }
             }
         }
 
