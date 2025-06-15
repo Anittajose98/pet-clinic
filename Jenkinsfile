@@ -122,7 +122,10 @@ pipeline {
            steps{
             script{
                 echo 'Deploy to kuberenetes'
-                sh 'kubectl apply -f springboot-deployment.yaml'
+                sh '''
+                sed "s/__IMAGE_TAG__/${BUILD_NUMBER}/g" k8s/springboot-deployment-template.yaml > springboot-deployment.yaml
+                kubectl apply -f springboot-deployment.yaml
+                '''
                 echo 'Deployed to kuberenetes'
             }
            }
