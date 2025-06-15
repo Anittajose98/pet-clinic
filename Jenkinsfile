@@ -136,7 +136,7 @@ pipeline {
              script {
                sh '''
                echo "Checking deployment status..."
-               kubectl rollout status deployment/springboot-deployment
+               kubectl rollout status deployment/springboot-app
                '''
               }
           }
