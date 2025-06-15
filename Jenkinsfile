@@ -106,8 +106,10 @@ pipeline {
                withCredentials([usernamePassword(credentialsId: 'azurespn', usernameVariable: 'AZURE_USERNAME', passwordVariable: 'AZURE_PASSWORD')]) {
                 script{
                     echo"Jenkins Login to Azure and kubernetes"
+                    sh '''
                     az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $TENANT_ID
                     az aks get-credentials --resource-group $RESOURCE_GROUP --name $CLUSTER_NAME
+                    '''
                     }
                 } 
             }
