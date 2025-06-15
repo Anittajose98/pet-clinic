@@ -114,7 +114,7 @@ pipeline {
 
         }
 
-        stage('Deploy to kuberenetes')
+        stage('Deploy to kuberenetes'){
            steps{
             script{
                 echo 'Deploy to kuberenetes'
@@ -122,6 +122,7 @@ pipeline {
                 echo 'Deployed to kuberenetes'
             }
            }
+        }
     }
 }
 
