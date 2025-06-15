@@ -128,10 +128,19 @@ pipeline {
                 '''
                 echo 'Deployed to kubernetes'
         
-
             }
            }
         }
+        stage('Check Deployment') {
+           steps {
+             script {
+               sh '''
+               echo "Checking deployment status..."
+               kubectl rollout status deployment/springboot-deployment
+               '''
+              }
+          }
+       }
     }
 }
 
