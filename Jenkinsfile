@@ -120,7 +120,7 @@ pipeline {
            steps{
             script{
                 echo 'Deploy to kuberenetes'
-                sh 'kubectl apply -f k8s/springboot-deployment.yaml'
+                sh 'kubectl apply -f springboot-deployment.yaml'
                 echo 'Deployed to kuberenetes'
             }
            }
