@@ -6,7 +6,7 @@ pipeline {
     }
     environment {  
         IMAGE_NAME = "springboot"
-        IMAGE_TAG  = "latest"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
         TENANT_ID  = "765d1d0b-281b-4c54-bb5d-8f10bb1ecffe"
         ACR_NAME   = "jenkins1"
         ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
@@ -72,6 +72,7 @@ pipeline {
             steps {
               script {
                 echo 'Docker Build Started'
+                IMAGE_TAG = "${env.BUILD_NUMBER}"
                 docker.build ("$IMAGE_NAME:$IMAGE_TAG") 
               }
             }
@@ -94,8 +95,9 @@ pipeline {
               script {
                 echo 'Docker push Started'
                 sh '''
-                docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${FULL_IMAGE_NAME}
-                docker push ${FULL_IMAGE_NAME}
+                docker tag ${IMAGE_NAME}:${IMAGE_TAG} ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+                docker push ${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}
+
                 '''
 
               }
