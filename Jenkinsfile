@@ -11,6 +11,8 @@ pipeline {
         ACR_NAME   = "jenkins1"
         ACR_LOGIN_SERVER = "${ACR_NAME}.azurecr.io"
         FULL_IMAGE_NAME = "${ACR_LOGIN_SERVER}/${IMAGE_NAME}:${IMAGE_TAG}"
+        RESOURCE-GROUP = "demo-rg"
+        CLUSTER_NAME = "demo-aks"
         
     }
 
@@ -99,9 +101,30 @@ pipeline {
               }
             }
         }
+        stage('Jenkins Login to Kubernetes'){
+           steps{
+               withCredentials([usernamePassword(credentialsId: 'azurespn', usernameVariable: 'AZURE_USERNAME', passwordVariable: 'AZURE_PASSWORD')]) {
+                script{
+                    echo"Jenkins Login to Azure and kubernetes"
+                    az login --service-principal -u $AZURE_USERNAME -p $AZURE_PASSWORD --tenant $TENANT_ID
+                    az aks get-credentials --resource-group $RESOURCE-GROUP --name $CLUSTER_NAME
+                    }
+                } 
+            }
 
+        }
+
+        stage('Deploy to kuberenetes')
+           steps{
+            script{
+                echo 'Deploy to kuberenetes'
+                sh 'kubectl apply -f k8s/sprinboot-deployment.yaml'
+                echo 'Deployed to kuberenetes'
+            }
+           }
     }
 }
+
         
     
 
