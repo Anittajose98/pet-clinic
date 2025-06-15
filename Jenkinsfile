@@ -119,14 +119,16 @@ pipeline {
         }
 
         stage('Deploy to kuberenetes'){
-           steps{
-            script{
-                echo 'Deploy to kuberenetes'
+           steps {
+              script {
+                echo 'Deploy to kubernetes'
                 sh '''
-                  sed "s/__IMAGE_TAG__/${BUILD_NUMBER}/g" springboot-deployment-template.yaml > springboot-deployment.yaml
-                  kubectl apply -f springboot-deployment.yaml
+                sed "s/__IMAGE_TAG__/${BUILD_NUMBER}/g" springboot-deployment.yaml > updated-deployment.yaml
+                kubectl apply -f updated-deployment.yaml
                 '''
-                echo 'Deployed to kuberenetes'
+                echo 'Deployed to kubernetes'
+        
+
             }
            }
         }
