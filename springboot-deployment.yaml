@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: springboot-app
-        image: jenkins1.azurecr.io/springboot:latest
+        image: jenkins1.azurecr.io/springboot:__IMAGE_TAG__
         ports:
         - containerPort: 8080
       imagePullSecrets:
